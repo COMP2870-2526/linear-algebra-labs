@@ -17,7 +17,7 @@ Find the eigenvalues by hand first then check your code gives the same results.
 ## Exercise 2: Improving the QR with Gram Schmidt approach
 
 In this exercise, we will improve our implementation of `gram_schmidt_qr` and `gram_schmidt_eigen`. You should use the same test case as in [the lecture notes](https://comp2870-2526.github.io/linear-algebra-notes/src/lec08.html#correctness-and-convergence).
-Implement *one* of the following improvements and see how the change the resulting performance of the algorithm.
+Implement *one* of the following improvements and see how the change the resulting performance of the algorithm in terms of robustness, accuracy and/or efficiency.
 
 1. The first challenge is that the Gram-Schmidt process does not give truely orthogonal vectors as outout when computed in double-precision floating-point calculations. We can improve this by using the *modified Gram-Schmidt process*. This works by manipulating a copy of $A$ to become orthogonal. The key steps are as follows:
 

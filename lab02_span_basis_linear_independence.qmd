@@ -1,7 +1,7 @@
-# Lab 02: Span, linear independence and bases
+# Lab02: Working with numpy
 
 ```{python}
-import numpy
+import numpy as np
 
 ```
 
@@ -20,28 +20,31 @@ A.shape
 
 There are shortcut commands to help with some matrices.
 ```{python}
-identity = np.eye(4) # takes one argument for a 4x4 identity matrix
-zeros = np.zeros((4, 4)) # takes one shape argument for a 4x4 matrix of zeros
-B = np.empty((4, 4)) # takes one shape argument for a 4x4 matrix with values not initialised to anything in particular
+identity = np.eye(4)  # takes one argument for a 4x4 identity matrix
+zeros = np.zeros((4, 4))  # takes one shape argument for a 4x4 matrix of zeros
+B = np.empty(
+    (4, 4)
+)  # takes one shape argument for a 4x4 matrix with values not initialised
+# to anything in particular
 ```
 
 We can perform basic matrix operations too:
 ```{python}
-5 * A # scalar multiplication
-A + identity # to add matrices
-zero @ A # the @ operator is used to do matrix multiplication
-A.T # we can call the method T to return (a view of) the transpose of A
+5 * A  # scalar multiplication
+A + identity  # to add matrices
+zeros @ A  # the @ operator is used to do matrix multiplication
+A.T  # we can call the method T to return (a view of) the transpose of A
 ```
 
 We can use the same expressions for vectors:
 ```{python}
-a = np.array([1.0, 2.0, 3.0]) # row vector
-b = np.array([[4.0], [5.0], [6.0]]) # column vector
+a = np.array([1.0, 2.0, 3.0])  # row vector
+b = np.array([[4.0], [5.0], [6.0]])  # column vector
 ```
 and compute scalar products very simply too
 ```{python}
-c = np.array([[1.0], [0.0], [-1.0]])
-np.dot(b, c)
+c = np.array([-1.0, 0.0, -1.0])
+np.dot(a, c)
 ```
 
 **Warning 1:**
@@ -52,7 +55,8 @@ c.dtype
 When constructing arrays, we can ensure that we have double-precision floating-point numbers using:
 ```{python}
 d = np.array([1.0, 2.0, 3.0], dtype=float)
-d = np.array([1.0, 2.0, 3.0], dtype=np.double) # or
+d = np.array([1.0, 2.0, 3.0], dtype=np.double)  # or
+d = d.astype(float)  # or
 ```
 
 **Warning 2:**
@@ -105,14 +109,14 @@ A & = \begin{pmatrix}
 %
 B & = \begin{pmatrix}
 1 & 2 & 3 \\ 0 & 4 & 5 \\ 1 & 0 & 6
-\end{pmatrix}, & \det B = 22 \\
+\end{pmatrix}, & \det B & = 22 \\
 %
 C & = \begin{pmatrix}
 1 & 2 & 3 & 4 \\
 5 & 6 & 7 & 8 \\
 2 & 6 & 4 & 8 \\
 3 & 1 & 1 & 2
-\end{pmatrix}, & \det C = 72.
+\end{pmatrix}, & \det C & = 72.
 \end{align*}
 
 **Extension**

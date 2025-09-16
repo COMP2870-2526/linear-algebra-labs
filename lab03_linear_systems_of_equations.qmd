@@ -1,5 +1,9 @@
 # Lab03: Linear systems of equations
 
+```{python}
+import numpy as np
+```
+
 ## Exercise 1: LU factorisation
 
 Implement the algorithm for LU factorisation as described [in the notes](https://comp2870-2526.github.io/linear-algebra-notes/src/lec04.html#sec-LU-factorisation). You should implement a Python function which accepts an $n \times n$ matrix $A$ represented as a numpy array and returns one lower triangular matrix $L$ and one upper triangular matrix $U$ with $A = LU$.
