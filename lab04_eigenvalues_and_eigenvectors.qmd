@@ -1,0 +1,63 @@
+# Lab04: Eigenvalues and eigenvectors
+
+## Exercise 1: Eigenvalues of $2 \times 2$ matrices
+
+For $2 \times 2$ matrices, we can use the quadratic formula to directly find eigenvalues of matrices.
+First, write down which quadratic equation that the eigenvalues should solve and then implement this in Python code.
+You should write a function which takes a $2 \times 2$ matrix represented by a numpy array and return both eigenvalues.
+
+Test your code with the matrix
+$$
+\begin{pmatrix}
+9 & -2 \\ -2 & 6
+\end{pmatrix}.
+$$
+Find the eigenvalues by hand first then check your code gives the same results.
+
+## Exercise 2: Improving the QR with Gram Schmidt approach
+
+In this exercise, we will improve our implementation of `gram_schmidt_qr` and `gram_schmidt_eigen`. You should use the same test case as in [the lecture notes](https://comp2870-2526.github.io/linear-algebra-notes/src/lec08.html#correctness-and-convergence).
+Implement *one* of the following improvements and see how the change the resulting performance of the algorithm.
+
+1. The first challenge is that the Gram-Schmidt process does not give truely orthogonal vectors as outout when computed in double-precision floating-point calculations. We can improve this by using the *modified Gram-Schmidt process*. This works by manipulating a copy of $A$ to become orthogonal. The key steps are as follows:
+
+    1. Create a copy of the input $n \times n$ matrix $A$ called $Q$ and initialise a zero matrix $R$ with the same size as $A$.
+    2. For $i = 1, \ldots n$
+       1. Compute the norm of the current column: $$R_{i, i} := \left( \sum_{j=1}^n | Q_{j, i} |^2 \right)^{\frac{1}{2}}$$.
+       2. Normalise the current column: $$Q_{j, i}^{\text{new}} := Q_{j, i} / R_{i, i} \quad \text{for } j = 1, \ldots n$$.
+       3. Orthogonalize remaining columns against the $i$th column of $Q$: for $j = i+1, \ldots n$,
+          $$
+          \begin{aligned}
+          R_{ij} = \sum_{k=1}^n Q_{ki} Q_{kj}
+          Q^{\text{new}}_{kj} = Q_{kj} - R_{ij} Q_{kj} && \text{for } k = 1, \ldots, n.
+          \end{aligned}
+          $$
+       4. Set $Q = Q^{\text{new}}$ and continue with next $i$.
+
+2. Following [Example 7.3](https://comp2870-2526.github.io/linear-algebra-notes/src/lec07.html#exm-char), we have a good formula for how *shifting* a matrix changes the eigenvalues and eigenvectors of a matrix.
+
+    For a shift value $\mu$, the key idea for the shifted algorithm is to shift the matrix before computing QR factorisation
+    $$
+    A - \mu I_n = QR,
+    $$
+    and then undo the shift when updating
+    $$
+    A^{\text{new}} = RQ + \mu I_n.
+    $$
+    
+    There are two suggestions form the literature to improve the speed of convergence.
+    
+    - The first is to take the bottom right value of the matrix $A$ at each step $\mu = A_{nn}$. Note this value changes throughout the computation as we update $A$ in-place.
+    - The second is to use the *Wilkinson shift*. In this case, we compute the eigenvalues of the bottom-right $2 \times 2$ submatrix of $A$ (using your code form Exercise 1) and then choose the eigenvalue closest to the bottom-right element of $A$ as our value of $\mu$.
+    
+    Neither change affects how the matrix $V$ should be computed.
+    
+3. We can also scale the matrix to be close to unit size. We again do this before the QR factorisation and then undo during reconstruction
+
+    1. Set $\alpha = \max_{ij} | A_{ij} |$ and $\tilde{A} = A / \alpha$.
+    2. Compute the QR factorisation of $\tilde{A} = QR$.
+    3. Update the $A$ as $$A^{\text{new}} = \alpha RQ$.
+    
+    This change does not affect how the matrix $V$ should be computed.
+
+If you have time, implement one or more additional updates again comparing using the test cases from the lecture notes.
